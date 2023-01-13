@@ -1,0 +1,166 @@
+{% extends 'myclient/index.html' %}
+{% load static %}
+
+{% block custome_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/brands.min.css" integrity="sha512-G/T7HQJXSeNV7mKMXeJKlYNJ0jrs8RsWzYG7rVACye+qrcUhEAYKYzaa+VFy6eFzM2+/JT1Q+eqBbZFSHmJQew==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/fontawesome.min.css" integrity="sha512-giQeaPns4lQTBMRpOOHsYnGw1tGVzbAIHUyHRgn7+6FmiEgGGjaG0T2LZJmAPMzRCl+Cug0ItQ2xDZpTmEc+CQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+ 
+</style>
+{% endblock custome_css %}
+
+
+{% block first_info %}
+    <h3 class="">Add new staff member</h3>
+    <hr>
+{% endblock first_info %}
+
+{% block second_info %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-5 p-5" style="border-radius:10px;">
+       <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form %}
+      {% for fm in form %}
+        {{fm.non_field_error}}
+      {% endfor %}
+    {% endif %}
+    {% if messages %}
+      {% for mess in messages %}
+        <div class="alert alert-pink h4">{{mess}}</div>
+      {% endfor %}
+      {% endif %}
+      <div>
+        {{form.img.label_tag}}
+        {{form.img}}
+       <!-- <b class="text-danger">{{form.phone.errors|striptags}}</b>-->
+      </div><br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+          {{form.name.label_tag}}
+            {{form.name}}
+            <!--<b class="text-danger">{{form.name.errors|striptags}}</b>-->
+          </div><br>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            {{form.price.label_tag}}
+            {{form.price}}
+            <!--<b class="text-danger">{{form.surname.errors|striptags}}</b>-->
+          </div>
+        </div>
+      </div>
+      <div>
+        {{form.stock.label_tag}}
+        {{form.stock}}
+       <!-- <b class="text-danger">{{form.phone.errors|striptags}}</b>-->
+      </div><br>
+      <div>
+        {{form.note.label_tag}}
+        {{form.note}}
+        <!--<b class="text-danger">{{form.app_date.errors|striptags}}</b>-->
+      </div><br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+            {{form.service.label_tag}}
+            {{form.service}}
+          </div><br>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            {{form.staff.label_tag}}
+            {{form.staff}}
+          </div><br>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Add product</button>
+  </form>
+    </div>
+    <div class="col-sm-7">
+      <!--<div class="card">
+        <img src="https://img.freepik.com/free-vector/meeting-business-people-avatar-character_24877-57276.jpg?w=1380&t=st=1673164074~exp=1673164674~hmac=d68af5fed381d8b52e505cbb41b04ec2dce02fc9093a3a6dabd2dcc27aaa684e" alt="staff pic" srcset="" style="object-fit:cover; object-position: top; height: 240px; width: 388px;">
+      </div>-->
+      <form action="" method="GET">
+      <div class="row mb-5">
+        <div class="col">
+          <label for="product">Search product</label>
+          <input type="text" class="form-control" name="product" placeholder="search product">
+        </div>
+        <div class="col mt-4">
+          <button type="submit" class="btn btn-success">search</button>
+        </div>
+      </div>
+    </form>
+      <div class="card shadow-pink">
+        <div class="card-header h5 alert alert-success" style="color:;">
+          Available Products
+        </div>
+        <div class="table-responsive table-responsive-sm table-responsive-md table-hover">
+          <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Picture</th>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Note</th>
+              <th scope="col">Update</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% if data %}
+            {% for dt in data %}
+            <tr> <b>
+              <td><b>{{ forloop.counter }}</b></td>
+              {% if dt.img %}
+                <td><img src="{{dt.img.url}}" alt="product" srcset="" style="width: 50%; height:40px; object-fit:cover; object-position:center;"></td>
+              {% else %}
+                <td>No picture</td>
+              {% endif %}
+              <td><b>{{dt.name}}</b></td>
+              <td><b>{{dt.price}}</b></td>
+              <td><b>{{dt.stock}}</b></td>
+              <td><b>{{dt.note}}</b></td>
+              <td><center><a href="{% url 'update_product' dt.id %}" class="btn btn-outline-success btn-sm"><i class="fa-regular fa-pen-to-square" style="font-size:15px;"></i></a></center></td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <center>
+              <div class="alert alert-danger text-danger" style="font-size:20px;">Product not available..!</div>
+            </center>
+          {% endif %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock second_info %}
+
+{% block third_info %}{% endblock third_info %}
+
+{% block forth_info %}{% endblock forth_info %}
+
+{% block custome_js %}
+  <!-- Timepicker Js -->
+  <script src="dist/wickedpicker.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+
+  <script language="javascript">
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    $('#date_picker').attr('min', today);
+  </script>
+{% endblock custome_js %}

@@ -1,0 +1,112 @@
+{% extends 'myclient/index.html' %}
+{% load static %}
+
+{% block custome_css %}
+{% endblock custome_css %}
+
+{% block first_info %}
+    <h3>create appointmrnt</h3>
+    <hr>
+{% endblock first_info %}
+
+{% block second_info %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-9">
+       <form action="" method="POST" >
+    {% csrf_token %}
+    {% if form %}
+      {% for fm in form %}
+        {{fm.non_field_error}}
+      {% endfor %}
+    {% endif %}
+    {% if messages %}
+      {% for mess in messages %}
+        <div>{{mess}}</div>
+      {% endfor %}
+      {% endif %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+          {{form.name.label_tag}}
+            {{form.name}}
+            <!--<b class="text-danger">{{form.name.errors|striptags}}</b>-->
+          </div><br>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            {{form.surname.label_tag}}
+            {{form.surname}}
+            <!--<b class="text-danger">{{form.surname.errors|striptags}}</b>-->
+          </div>
+        </div>
+      </div>
+      <div>
+        {{form.phone.label_tag}}
+        {{form.phone}}
+       <!-- <b class="text-danger">{{form.phone.errors|striptags}}</b>-->
+      </div><br>
+      <div>
+        {{form.app_date.label_tag}}
+        {{form.app_date}}
+        <!--<b class="text-danger">{{form.app_date.errors|striptags}}</b>-->
+      </div><br>
+      <div>
+        {{form.app_time.label_tag}}
+        {{form.app_time}}
+        <!--<h6 class="text-danger">{{form.app_time.errors|striptags}}</h6>-->
+      </div><br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div>
+            {{form.service.label_tag}}
+            {{form.service}}
+          </div><br>
+        </div>
+        <div class="col-sm-6">
+          <div>
+            {{form.staff.label_tag}}
+            {{form.staff}}
+          </div><br>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Book Appointment</button>
+  </form>
+    </div>
+    <div class="col-sm-3">
+       <div class="card shadow-pink">
+        <div class="card-header">
+          Featured
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock second_info %}
+
+{% block third_info %}{% endblock third_info %}
+
+{% block forth_info %}{% endblock forth_info %}
+
+{% block custome_js %}
+  <!-- Timepicker Js -->
+  <script src="dist/wickedpicker.min.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+
+  <script language="javascript">
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0');
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    $('#date_picker').attr('min', today);
+  </script>
+{% endblock custome_js %}
